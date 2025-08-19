@@ -5,5 +5,5 @@ from . import views
 app_name="DevInfoApp"
 urlpatterns=[
     path("developers/",views.devListView,name="developersList"),
-
+    path("developers/<str:username>",views.devDetailView,name='developerDetail')
 ]
