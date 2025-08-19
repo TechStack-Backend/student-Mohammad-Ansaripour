@@ -1,4 +1,6 @@
 from django.db import models
+from django.urls import reverse
+
 
 # Create your models here.
 class SkillModel(models.Model):
@@ -13,3 +15,6 @@ class DevelopersModel(models.Model):
 
     def __str__(self):
         return self.first_name
+    
+    def get_obsolute_url(self):
+        return reverse("DevInfoApp:developerDetail",kwargs={"username": self.username })
