@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from .models import *
 
 # Create your views here.
@@ -11,7 +11,7 @@ def devListView(request):
 
 
 def devDetailView(request,username):
-    developer=DevelopersModel.objects.get(username=username)
+    developer=get_object_or_404(DevelopersModel,username=username)
     context={
         "fname":developer.first_name,
         "lname":developer.last_name,

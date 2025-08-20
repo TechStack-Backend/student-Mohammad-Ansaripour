@@ -3,7 +3,7 @@ from .models import *
 
 # Register your models here.
 class SkillsInLine(admin.TabularInline):
-    model = SkillModel
+    model = SkillModel.developers.through
     extra=1
 
 @admin.register(DevelopersModel)

@@ -6,7 +6,10 @@ from django.urls import reverse
 class SkillModel(models.Model):
 
     skill=models.CharField(max_length=50)
-    skills=models.ForeignKey('DevelopersModel',on_delete=models.DO_NOTHING,related_name="skills")
+    developers=models.ManyToManyField("DevelopersModel",related_name="skills")
+
+    def __str__(self):
+        return self.skill
 
 class DevelopersModel(models.Model):
     username=models.CharField(max_length=50)
