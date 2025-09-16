@@ -1,0 +1,27 @@
+{% extends "parents/base_dev.html" %}
+{% block title %}
+Detail
+{% endblock title %}
+{% block body %}
+            <div>
+            name: {{developer.first_name}} {{developer.last_name}}
+            <br>
+            age: {{developer.age}}
+            <br>
+            email: {{developer.email}}
+        </div>
+        <div>
+            skills:
+            {% for skill in developer.skills.all  %}
+                {{skill.title}}
+            {% endfor %}
+        </div>
+        <div>
+            projects:
+            {% for proj in developer.projects.all  %}
+                <a href="{{ proj.get_absolute_url }}">
+                {{proj.title}}
+                </a>
+            {% endfor %}
+        </div>
+{% endblock body %}

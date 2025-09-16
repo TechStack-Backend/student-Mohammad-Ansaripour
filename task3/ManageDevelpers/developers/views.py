@@ -13,7 +13,8 @@ def developersDetails(request,username):
     context={
         "developer":developer
     }
-    return render(request,"developers/developerDetailes.html")
+    return render(request,"developers/developersDetails.html",context)
+
 def developerCreate(request):
     pass
 
@@ -25,7 +26,7 @@ def projectsList(request):
     context={
         "projects":projects
     }
-    return render(request,"developers/projectsLis.html",context)
+    return render(request,"developers/projectsList.html",context)
 
 def projectsDetails(request,id):
     project=get_object_or_404(ProjectModel,id=id)
