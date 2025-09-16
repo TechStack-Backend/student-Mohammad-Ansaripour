@@ -6,8 +6,8 @@ app_name="developers"
 
 urlpatterns=[
     path("developers/",views.developersList,name="developers_list"),
-    path("developers/<int:id>",views.developersDetails,name="developers_detail"),
+    path("developers/<str:username>/",views.developersDetails,name="developers_detail"),
     path("projects/",views.projectsList,name="projects_list"),
-    path("projects/<int:id>",views.projectsDetails,name="projects_detail"),
+    path("projects/<int:id>/",views.projectsDetails,name="projects_detail"),
 
 ]

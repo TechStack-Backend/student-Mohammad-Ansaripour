@@ -4,6 +4,7 @@ class DevelopersModel(models.Model):
     first_name=models.CharField(max_length=50)
     last_name=models.CharField(max_length=75)
     email=models.EmailField()
+    username=models.CharField(max_length=50,unique=True,blank=False,)
     age=models.PositiveIntegerField()
     projects=models.ManyToManyField("ProjectModel",related_name="developers")
 
