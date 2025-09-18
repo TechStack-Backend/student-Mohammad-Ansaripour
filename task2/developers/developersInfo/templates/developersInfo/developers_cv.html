@@ -1,0 +1,17 @@
+{% extends "parents/base.html" %} 
+{% block title %}
+Details
+{% endblock title %}
+{% block body %}
+<h1>developer details</h1>
+<p>
+full name: {{fname}} {{lname}}<br>
+user name: {{username}}<br>
+skills : <ul>  
+            {% for skill in skills.all %}
+            <li>{{skill.skill}} </li>
+            {% endfor %}
+        </ul> 
+</p>
+<a href="{% url 'DevInfoApp:developersList' %}">developers list</a>
+{% endblock body %}

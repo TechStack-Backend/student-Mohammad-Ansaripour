@@ -1,0 +1,16 @@
+{% extends "parents/base.html" %} 
+{% block title %}
+list
+{% endblock title %}
+{% block body %}
+<div>
+    {% for dev in developers %}
+    <a href={{ dev.get_obsolute_url }}><div>
+        <p>{{ dev.first_name }}</p>
+        <p>{{ dev.last_name }}</p>
+        <p>{{ dev.username }}</p>
+    </div></a>
+    <hr>
+    {% endfor %}
+</div>
+{% endblock body %}
