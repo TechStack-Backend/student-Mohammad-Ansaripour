@@ -6,7 +6,7 @@ class DevelopersModel(models.Model):
     first_name=models.CharField(max_length=50)
     last_name=models.CharField(max_length=75)
     email=models.EmailField()
-    username=models.CharField(max_length=50,blank=True,unique=True)
+    username=models.CharField(max_length=50,unique=True)
     age=models.PositiveIntegerField()
     projects=models.ManyToManyField("ProjectModel",related_name="developers")
 
@@ -28,7 +28,7 @@ class SkillsModel(models.Model):
 
 class ProjectModel(models.Model):
     title=models.CharField(max_length=30)
-    desciption=models.TextField()
+    description=models.TextField()
 
     def get_absolute_url(self):
         return reverse("developers:projects_detail", kwargs={"id" : self.id})

@@ -1,0 +1,12 @@
+{% extends "parents/base_dev.html" %}
+{% block title %}
+Add Developer
+{% endblock title %}
+{% block body %}
+<form method="POST">
+{% csrf_token %}
+{{ dev_form.as_p }}
+{{ skill_form.as_p }}
+<input type="submit">
+</form>
+{% endblock body %}

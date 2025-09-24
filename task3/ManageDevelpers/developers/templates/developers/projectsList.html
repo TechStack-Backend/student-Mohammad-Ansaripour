@@ -6,7 +6,7 @@ List
 {% for proj in projects %}
     
     <div>
-        <a href="{{ dev.get_absolute_url }}">
+        <a href="{{ proj.get_absolute_url }}">
         <div>
             title: {{proj.title}}
             <br>
