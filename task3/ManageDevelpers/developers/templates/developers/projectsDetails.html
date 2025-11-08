@@ -4,14 +4,14 @@ Detail
 {% endblock title %}
 {% block body %}
             <div>
-            title {{project.title}} 
+            title {{object.title}} 
             <br>
-            description: {{project.description}}
+            description: {{object.description}}
 
         </div>
         <div>
             developer:
-            {% for dev in project.developers.all   %}
+            {% for dev in object.developers.all   %}
                 <a href="{{ dev.get_absolute_url }}">
                 {{dev.first_name}} {{dev.last_name}}
                 </a>

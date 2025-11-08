@@ -1,30 +1,27 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render,get_object_or_404,redirect
+from django.shortcuts import render,redirect
 from .models import *
-from django.views.generic import CreateView
+from django.views.generic import *
 from . import forms
 from django.urls import reverse_lazy
 
 
-def developersList(request):
-    developers=DevelopersModel.objects.all()
-    context={
-        "developers":developers,
-        }
-    return render(request,"developers/developersList.html",context)
 
-def developersDetails(request,username):
-    developer=get_object_or_404(DevelopersModel,username=username)
-    context={
-        "developer":developer
-    }
-    return render(request,"developers/developersDetails.html",context)
+class DevelopersList(ListView):
+    model=DevelopersModel
+    template_name = "developers/developersList.html"
+
+
+class DeveloperDetails(DetailView):
+    model=DevelopersModel
+    slug_url_kwarg="username"
+    template_name = "developers/developersDetails.html"
+    slug_field="username"
 
 class DeveloperCreativeView(CreateView):
     model=DevelopersModel
     template_name="forms/developers_create_form.html"
     form_class= forms.DevelopersForms
-    # success_url="/developers/"
 
     def get(self, request):
         dev_form = forms.DevelopersForms()
@@ -34,50 +31,90 @@ class DeveloperCreativeView(CreateView):
             'skill_form': skill_form
         })
         
+    def form_valid(self,dev_form,skill_form):
+        developer=dev_form.save()
+        skill=skill_form.save(commit=False)
+        skill.developer=developer
+        skill.save()
+        return redirect("developers:developers_list") 
+    
+    def form_invalid(self,request,dev_form,skill_form):
+        return render(request, self.template_name, {
+                    'dev_form': dev_form,
+                    'skill_form': skill_form
+                })
+       
     def post(self, request, *args, **kwargs):
         dev_form=forms.DevelopersForms(request.POST)
         skill_form=forms.SkillForm(request.POST)
         if dev_form.is_valid() and skill_form.is_valid():
-            developer=dev_form.save()
-            skill=skill_form.save(commit=False)
-            skill.developer=developer
-            skill.save()
-            return redirect("developers:developers_list")
+            return self.form_valid(dev_form , skill_form)
         else:
-            return render(request, self.template_name, {
-                    'dev_form': dev_form,
-                    'skill_form': skill_form
-                })
+            return self.form_invalid(request,dev_form,skill_form)
+                
+        
+
+class DeveloperUpdateView(UpdateView):
+    model=DevelopersModel
+    template_name="forms/developersUpdate.html"
+    fields=["first_name","last_name","email","username","age","projects"]
+    slug_field="username"
+    slug_url_kwarg="username"
+    # add skill form for add new skill to developers
+
+
+class DeveloperDeleteView(DeleteView):
+    model = DevelopersModel
+    template_name = "forms/developer_confirm_delete.html"
+    success_url = reverse_lazy("developers:developers_list")  # مسیر بازگشت بعد از حذف
+    slug_field = "username"       # اگر حذف بر اساس username است
+    slug_url_kwarg = "username"
+
+class ProjectListView(ListView):
+    model=ProjectModel
+    template_name="developers/projectsList.html"
+
+class ProjectDetailView(DetailView):
+    model =ProjectModel
+    pk_url_kwarg="id"
+    template_name="developers/projectsDetails.html"
 
 
 
-def projectsList(request):
-    projects=ProjectModel.objects.all()
-    context={
-        "projects":projects
-    }
-    return render(request,"developers/projectsList.html",context)
+class ProjectCreateView(CreateView):
+    model=ProjectModel
+    template_name="forms/project_creat_form.html"
+    form_class=forms.ProjectForm
 
-def projectsDetails(request,id):
-    project=get_object_or_404(ProjectModel,id=id)
-    context={
-        "project":project
-    }
-    return render(request,"developers/projectsDetails.html",context)
+    def form_valid(self, form):
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        return super().form_invalid(form)
 
-def projectCreate(request):
-    if request.method == "POST":
-        form = forms.ProjectForm(request.POST)
-        if form.is_valid():
-            project = ProjectModel.objects.create(
-                title=form.cleaned_data["title"],
-                description=form.cleaned_data["description"]
-            )
-            project.developers.set(form.cleaned_data["developers"])
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
+    
+class ProjectUpdataView(UpdateView):
+    model=ProjectModel
+    template_name="forms/projectUpdata.html"
+    fields=["title","description"]              #add developers in edit, creat developers form link
+    pk_url_kwarg="id"
+    
+class ProjectDeleteView(DeleteView):
+    model = ProjectModel
+    template_name = "forms/projectDelete.html"
+    success_url = reverse_lazy("developers:developers_list")  # مسیر بازگشت بعد از حذف
+    pk_url_kwarg = "id"
 
-            return redirect("developers:projects_detail", id=project.id)
-    else:
-        form = forms.ProjectForm()
 
-    return render(request, "forms/project_creat_form.html", {"form": form})
+# error handeling and H-case
+#form validation
+#   clean
+#clean code
+#django massege
+
 

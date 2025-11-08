@@ -15,6 +15,8 @@ class ProjectForm(forms.Form):
         if ProjectModel.objects.filter(title=title).exists():
             raise forms.ValidationError("this title is in used.")
         return title
+    
+
 
 
 class DevelopersForms(forms.ModelForm):

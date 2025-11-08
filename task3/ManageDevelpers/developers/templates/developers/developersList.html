@@ -3,7 +3,7 @@
 List
 {% endblock title %}
 {% block body %}
-{% for dev in developers %}
+{% for dev in object_list %}
     
     <div>
         <a href="{{ dev.get_absolute_url }}">

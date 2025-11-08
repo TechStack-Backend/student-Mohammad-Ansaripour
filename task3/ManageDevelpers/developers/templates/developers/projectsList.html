@@ -3,7 +3,7 @@
 List
 {% endblock title %}
 {% block body %}
-{% for proj in projects %}
+{% for proj in object_list %}
     
     <div>
         <a href="{{ proj.get_absolute_url }}">

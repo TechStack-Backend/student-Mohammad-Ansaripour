@@ -4,24 +4,30 @@ Detail
 {% endblock title %}
 {% block body %}
             <div>
-            name: {{developer.first_name}} {{developer.last_name}}
+            name: {{object.first_name}} {{object.last_name}}
             <br>
-            age: {{developer.age}}
+            age: {{object.age}}
             <br>
-            email: {{developer.email}}
+            email: {{object.email}}
         </div>
         <div>
             skills:
-            {% for skill in developer.skills.all  %}
+            {% for skill in object.skills.all  %}
                 {{skill.title}}
             {% endfor %}
         </div>
         <div>
             projects:
-            {% for proj in developer.projects.all  %}
+            {% for proj in object.projects.all  %}
                 <a href="{{ proj.get_absolute_url }}">
+                <br>
                 {{proj.title}}
                 </a>
             {% endfor %}
+            <br>
+            <a href="{% url 'developers:developers_update' object.username %}">update developers info</a>
+            <br>
+            <a href="{% url 'developers:developers_delete' object.username %}">delete developers </a>
+            <br>
         </div>
 {% endblock body %}
