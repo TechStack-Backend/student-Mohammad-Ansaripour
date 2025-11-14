@@ -17,5 +17,9 @@ Detail
                 </a>
             {% endfor %}
         </div>
-
+        <br>
+        <a href="{% url 'developers:projects_update' object.id %}">Updete project</a>
+        <br>
+        <a href="{% url 'developers:projects_delete' object.id %}">Delete project</a>
+        <br>
 {% endblock body %}

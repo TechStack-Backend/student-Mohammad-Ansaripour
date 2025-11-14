@@ -1,19 +1,28 @@
 from django import forms
 from .models import *
 
-class ProjectForm(forms.Form):
-    title=forms.CharField(max_length=100,required=True)
-    description=forms.CharField(widget=forms.Textarea)
+class ProjectForm(forms.ModelForm):
     developers = forms.ModelMultipleChoiceField(
         queryset=DevelopersModel.objects.all(),
         widget=forms.CheckboxSelectMultiple, 
         required=True)
+    class Meta:
+        model= ProjectModel
+        fields=[
+            "title",
+            "description",
+            "developers"
+        ]
     
-    def clean_username(self):
+    def clean_title(self):
         title = self.cleaned_data.get("title")
-        
-        if ProjectModel.objects.filter(title=title).exists():
-            raise forms.ValidationError("this title is in used.")
+        queryset = ProjectModel.objects.filter(title=title)
+
+        if self.instance.pk:  
+            queryset = queryset.exclude(pk=self.instance.pk)
+
+        if queryset.exists():
+            raise forms.ValidationError("titel is in used")
         return title
     
 

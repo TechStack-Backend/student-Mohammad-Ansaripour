@@ -4,8 +4,10 @@ Add Developer
 {% endblock title %}
 {% block body %}
 <form method="POST">
-{% csrf_token %}
-{{form.as_p}}
-<input type="submit">
+    {% csrf_token %}
+    {{form.as_p}}
+    <a href="{% url 'developers:developer_create' %}?next={{ request.path }}">add new developer</a>
+    <br>
+    <input type="submit">
 </form>
 {% endblock body %}

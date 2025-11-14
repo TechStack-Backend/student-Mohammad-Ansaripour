@@ -9,5 +9,6 @@ Update
     <button type="submit">Save</button>
     <a href="{% url 'developers:developer_create' %}?next={{ request.path }}">add new project</a>
 </form>
+<a href="{% url 'developers:projects_delete' object.id %}">delete project</a>
 
 {% endblock body %}

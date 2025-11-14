@@ -1,0 +1,12 @@
+{% extends "parents/base_dev.html" %}
+{% block title %}
+Update
+{% endblock title %}
+{% block body %}
+<form method="post">
+    {% csrf_token %}
+    <p>did you sure abote delete {{ object.title }}</p>
+    <button type="submit">بله، حذف کن</button>
+</form>
+
+{% endblock body %}

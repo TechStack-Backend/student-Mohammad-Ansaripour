@@ -65,7 +65,7 @@ class DeveloperUpdateView(UpdateView):
 
 class DeveloperDeleteView(DeleteView):
     model = DevelopersModel
-    template_name = "forms/developer_confirm_delete.html"
+    template_name = "forms/developerDelete.html"
     success_url = reverse_lazy("developers:developers_list")  # مسیر بازگشت بعد از حذف
     slug_field = "username"       # اگر حذف بر اساس username است
     slug_url_kwarg = "username"
@@ -86,28 +86,36 @@ class ProjectCreateView(CreateView):
     template_name="forms/project_creat_form.html"
     form_class=forms.ProjectForm
 
-    def form_valid(self, form):
+    def form_valid(self,form):
+        proj =form.save()
+        developers=form.cleaned_data["developers"]
+        proj.developers.set(developers)
         return super().form_valid(form)
     
     def form_invalid(self, form):
         return super().form_invalid(form)
 
-    def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
+
     
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
     
 class ProjectUpdataView(UpdateView):
     model=ProjectModel
+    form_class=forms.ProjectForm
     template_name="forms/projectUpdata.html"
-    fields=["title","description"]              #add developers in edit, creat developers form link
     pk_url_kwarg="id"
+    
+    def form_valid(self, form):
+        project = form.save()
+        developers = form.cleaned_data.get("developers")
+        project.developers.set(developers)
+        return super().form_valid(form)
     
 class ProjectDeleteView(DeleteView):
     model = ProjectModel
     template_name = "forms/projectDelete.html"
-    success_url = reverse_lazy("developers:developers_list")  # مسیر بازگشت بعد از حذف
+    success_url = reverse_lazy("developers:projects_list")  # مسیر بازگشت بعد از حذف
     pk_url_kwarg = "id"
 
 

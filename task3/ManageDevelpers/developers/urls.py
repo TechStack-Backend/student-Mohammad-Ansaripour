@@ -12,7 +12,7 @@ urlpatterns=[
     path("developers/delete/<str:username>/",views.DeveloperDeleteView.as_view(),name="developers_delete"),
     path("projects/",views.ProjectListView.as_view(),name="projects_list"),
     path("projects/<int:id>/",views.ProjectDetailView.as_view(),name="projects_detail"),
-    path("projects/add/",views.projectCreate,name="projects_create"),
+    path("projects/add/",views.ProjectCreateView.as_view(),name="projects_create"),
     path("projects/update/<int:id>/",views.ProjectUpdataView.as_view(),name="projects_update"),
     path("projects/delete/<int:id>/",views.ProjectDeleteView.as_view(),name="projects_delete"),
 ]
