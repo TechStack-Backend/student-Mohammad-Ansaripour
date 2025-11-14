@@ -1,0 +1,25 @@
+{% extends "parents/base_proj.html" %}
+{% block title %}
+Detail
+{% endblock title %}
+{% block body %}
+            <div>
+            title {{object.title}} 
+            <br>
+            description: {{object.description}}
+
+        </div>
+        <div>
+            developer:
+            {% for dev in object.developers.all   %}
+                <a href="{{ dev.get_absolute_url }}">
+                {{dev.first_name}} {{dev.last_name}}
+                </a>
+            {% endfor %}
+        </div>
+        <br>
+        <a href="{% url 'developers:projects_update' object.id %}">Updete project</a>
+        <br>
+        <a href="{% url 'developers:projects_delete' object.id %}">Delete project</a>
+        <br>
+{% endblock body %}

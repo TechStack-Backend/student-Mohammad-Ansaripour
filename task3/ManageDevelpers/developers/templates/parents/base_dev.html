@@ -1,0 +1,15 @@
+<DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        {% block head %}{% endblock head %}
+        <title>Developers |{% block title %}{% endblock title %}</title>
+    </head>
+    <body>
+    {% include "partials/header.html" %}
+    {% block body %}
+    
+    {% endblock body %}
+    {% include "partials/footer.html" %}
+    </body>
+</html>
