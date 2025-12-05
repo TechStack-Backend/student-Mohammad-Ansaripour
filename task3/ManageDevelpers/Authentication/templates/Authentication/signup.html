@@ -1,0 +1,17 @@
+{% extends "parents/base.html" %} 
+
+{% block title %}
+Signup
+{% endblock title %}
+{% block body %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {{ form.error }}
+    <button type="submit">signup</button>
+</form>
+have account? <a href="{% url 'auth:login' %}">login</a>
+
+{% endblock body %}
+
+

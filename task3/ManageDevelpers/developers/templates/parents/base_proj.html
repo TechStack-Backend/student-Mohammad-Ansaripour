@@ -1,4 +1,4 @@
-<DOCTYPE html>
+<!DOCTYPE html>
 {% load static %}
 <html>
     <head>
@@ -6,6 +6,7 @@
         <title>Projects |{% block title %}{% endblock title %}</title>
     </head>
     <body>
+    {% include "partials/navigation.html" %}
     {% include "partials/header.html" %}
     {% block body %}
     

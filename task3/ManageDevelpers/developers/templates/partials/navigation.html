@@ -1,0 +1,11 @@
+{{ request.user.username }}
+
+<form action="{% url 'auth:logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+</form>
+
+<form action="{% url 'auth:password_change' %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Change Password</button>
+</form>

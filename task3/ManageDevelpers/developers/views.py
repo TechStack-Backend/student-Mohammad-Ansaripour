@@ -1,4 +1,5 @@
 from django.http import HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render,redirect
 from .models import *
 from django.views.generic import *
@@ -7,18 +8,18 @@ from django.urls import reverse_lazy
 
 
 
-class DevelopersList(ListView):
+class DevelopersList(LoginRequiredMixin,ListView):
     model=DevelopersModel
     template_name = "developers/developersList.html"
 
 
-class DeveloperDetails(DetailView):
+class DeveloperDetails(LoginRequiredMixin,DetailView):
     model=DevelopersModel
     slug_url_kwarg="username"
     template_name = "developers/developersDetails.html"
     slug_field="username"
 
-class DeveloperCreativeView(CreateView):
+class DeveloperCreativeView(LoginRequiredMixin,CreateView):
     model=DevelopersModel
     template_name="forms/developers_create_form.html"
     form_class= forms.DevelopersForms
@@ -54,7 +55,7 @@ class DeveloperCreativeView(CreateView):
                 
         
 
-class DeveloperUpdateView(UpdateView):
+class DeveloperUpdateView(LoginRequiredMixin,UpdateView):
     model=DevelopersModel
     template_name="forms/developersUpdate.html"
     fields=["first_name","last_name","email","username","age","projects"]
@@ -63,25 +64,25 @@ class DeveloperUpdateView(UpdateView):
     # add skill form for add new skill to developers
 
 
-class DeveloperDeleteView(DeleteView):
+class DeveloperDeleteView(LoginRequiredMixin,DeleteView):
     model = DevelopersModel
     template_name = "forms/developerDelete.html"
     success_url = reverse_lazy("developers:developers_list")  # مسیر بازگشت بعد از حذف
     slug_field = "username"       # اگر حذف بر اساس username است
     slug_url_kwarg = "username"
 
-class ProjectListView(ListView):
+class ProjectListView(LoginRequiredMixin,ListView):
     model=ProjectModel
     template_name="developers/projectsList.html"
 
-class ProjectDetailView(DetailView):
+class ProjectDetailView(LoginRequiredMixin,DetailView):
     model =ProjectModel
     pk_url_kwarg="id"
     template_name="developers/projectsDetails.html"
 
 
 
-class ProjectCreateView(CreateView):
+class ProjectCreateView(LoginRequiredMixin,CreateView):
     model=ProjectModel
     template_name="forms/project_creat_form.html"
     form_class=forms.ProjectForm
@@ -100,7 +101,7 @@ class ProjectCreateView(CreateView):
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
     
-class ProjectUpdataView(UpdateView):
+class ProjectUpdataView(LoginRequiredMixin,UpdateView):
     model=ProjectModel
     form_class=forms.ProjectForm
     template_name="forms/projectUpdata.html"
@@ -112,10 +113,10 @@ class ProjectUpdataView(UpdateView):
         project.developers.set(developers)
         return super().form_valid(form)
     
-class ProjectDeleteView(DeleteView):
+class ProjectDeleteView(LoginRequiredMixin,DeleteView):
     model = ProjectModel
     template_name = "forms/projectDelete.html"
-    success_url = reverse_lazy("developers:projects_list")  # مسیر بازگشت بعد از حذف
+    success_url = reverse_lazy("developers:projects_list")  
     pk_url_kwarg = "id"
 
 
